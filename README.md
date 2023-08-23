@@ -23,11 +23,9 @@ python3.8 -m pip install git+https://github.com/bit4woo/utilbox.git
 ## 使用方法
 
 ```
-import utils
+import utilbox
 
-utils.get_base_url("https://github.com/bit4woo/utilbox.git")
-
-import
+utilbox.highlight_print("welcome","utilbox")
 
 ```
 
