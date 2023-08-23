@@ -10,6 +10,7 @@ setup(
     long_description="common used functions for me",
     long_description_content_type="text/markdown",
     url="https://github.com/bit4woo/utilbox",
+    package_dir={"": "src"},
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
