@@ -10,7 +10,7 @@ setup(
     long_description="common used functions for me",
     long_description_content_type="text/markdown",
     url="https://github.com/bit4woo/utilbox",
-    packages=["utils"],
+    packages=["utilbox"],
     install_requires=[
         "requests",
         "beautifulsoup4",

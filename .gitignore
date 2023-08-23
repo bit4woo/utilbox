@@ -1,1 +1,4 @@
 /.idea/
+/dist/
+/utilbox.egg-info/
+/build/
