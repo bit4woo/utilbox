@@ -10,12 +10,7 @@ setup(
     long_description="common used functions for me",
     long_description_content_type="text/markdown",
     url="https://github.com/bit4woo/utilbox",
-    packages=["src"],
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-    ],
+    packages=["utilbox"],
     install_requires=[
         "requests",
         "beautifulsoup4",
