@@ -333,5 +333,9 @@ def read_lines_from_console(clear_empty=False, strip_lines=False):
     return lines
 
 
+def func_test_force_install():
+    print("func_test_force_install")
+
+
 if __name__ == '__main__':
     print(get_argv(3))
