@@ -125,6 +125,19 @@ def is_valid_ip(host):
         return False
 
 
+def is_valid_subnet(subnet):
+    '''
+    strict =False，因为想要 192.168.1.1/27这个格式返回true
+    :param subnet:
+    :return:
+    '''
+    try:
+        ipaddress.ip_network(subnet, strict=False)
+        return True
+    except ValueError:
+        return False
+
+
 def is_valid_domain_by_query(host):
     try:
         socket.getaddrinfo(host, None)
@@ -141,6 +154,15 @@ def is_valid_port(port):
     except:
         pass
     return False
+
+
+def get_ip_list_of_subnet(subnet):
+    try:
+        tmp = ipaddress.ip_network(subnet, strict=False)
+        result = [item.__str__() for item in tmp.hosts()]
+        return result
+    except ValueError:
+        return []
 
 
 def get_logger(log_file_name='logger.log'):
@@ -333,9 +355,6 @@ def read_lines_from_console(clear_empty=False, strip_lines=False):
     return lines
 
 
-def func_test_force_install():
-    print("func_test_force_install")
-
-
 if __name__ == '__main__':
-    print(get_argv(3))
+    print(is_valid_subnet("192.168.15.0/25"))
+    print(get_ip_list_of_subnet("192.168.15.0/25"))
