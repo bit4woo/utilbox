@@ -14,6 +14,7 @@ setup(
     install_requires=[
         "requests",
         "beautifulsoup4",
+        "PySocks",
     ],
     python_requires=">=3.8",
 )

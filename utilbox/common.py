@@ -7,9 +7,11 @@ import re
 import socket
 import string
 import sys
-import socks
 from urllib.parse import urlparse, urlunparse
 
+# 上面是标准库，下面是第三方库库
+import socks
+# python3.8 -m pip install PySocks
 from bs4 import BeautifulSoup
 
 
