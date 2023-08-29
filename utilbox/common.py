@@ -7,6 +7,7 @@ import re
 import socket
 import string
 import sys
+import urllib
 from urllib.parse import urlparse, urlunparse
 
 # 上面是标准库，下面是第三方库库
@@ -250,6 +251,14 @@ def get_base_url(url):
     parsed_url = urlparse(url)
     base_url = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
     return base_url
+
+
+def url_encode(url):
+    return urllib.parse.quote(url)
+
+
+def url_decode(url):
+    return urllib.parse.unquote(url)
 
 
 def get_argv(num_of_arg=1):
