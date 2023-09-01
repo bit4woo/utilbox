@@ -39,6 +39,18 @@ utilbox.highlight_print("welcome","utilbox")
 
 
 
+0. **使用--force-reinstall自动全部卸载和安装（推荐）**
+
+    除了当前包本身，它的依赖也会一起被卸载和重新安装
+
+    ```
+    
+    python3.8 -m pip install --force-reinstall git+https://github.com/bit4woo/utilbox.git
+    
+    ```
+
+![image-20230901124142128](assets/image-20230901124142128.png)
+
 1. **卸载后重新安装（推荐）：** 首先，卸载当前已安装的包，然后再重新安装它。您可以使用以下命令：
 
    ```bash
