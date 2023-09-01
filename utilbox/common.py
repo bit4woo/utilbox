@@ -297,6 +297,13 @@ def get_full_path(path):
     return path
 
 
+def get_ip(host):
+    try:
+        return socket.gethostbyname(host)
+    except:
+        return None
+
+
 '''
 re.match(pattern, string)：尝试从字符串的[开头]匹配模式，如果匹配成功则返回一个匹配对象，否则返回None。类似 startswith
 
@@ -367,5 +374,6 @@ def read_lines_from_console(clear_empty=False, strip_lines=False):
 
 
 if __name__ == '__main__':
-    print(is_valid_subnet("192.168.15.0/25"))
-    print(get_ip_list_of_subnet("192.168.15.0/25"))
+    # print(is_valid_subnet("192.168.15.0/25"))
+    # print(get_ip_list_of_subnet("192.168.15.0/25"))
+    print(get_ip("baidu.com"))
