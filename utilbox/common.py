@@ -106,6 +106,18 @@ def get_file_lines(file_path, spliter=";"):
     return None  # 如果都尝试失败，则返回 None
 
 
+def get_lines_from_quote(text, remove_empty_lines=False):
+    result = []
+    if not text or isinstance(text, str):
+        return []
+    for item in text.splitlines():
+        item = item.strip()
+        if remove_empty_lines and item == "":
+            continue
+        result.append(item)
+    return result
+
+
 def is_valid_domain(domain):
     domain_pattern = "^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$"
     return re.match(domain_pattern, domain) is not None
