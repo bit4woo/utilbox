@@ -10,10 +10,10 @@ python环境：python3.8
 ## 安装方法
 
 ```
-python3.8 -m pip install -I git+https://github.com/bit4woo/utilbox.git
-
+python3.8 -m pip install --force-reinstall git+https://github.com/bit4woo/utilbox.git
+```
 或
-
+```
 python3.8 -m pip uninstall utilbox
 python3.8 -m pip install git+https://github.com/bit4woo/utilbox.git
 ```
