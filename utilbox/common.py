@@ -316,53 +316,58 @@ def get_ip(host):
         return None
 
 
-'''
-re.match(pattern, string)：尝试从字符串的[开头]匹配模式，如果匹配成功则返回一个匹配对象，否则返回None。类似 startswith
-
-re.search(pattern, string)：在整个字符串中搜索匹配模式，如果找到则返回一个匹配对象，否则返回None。查找一个
-
-re.findall(pattern, string)：查找字符串中所有匹配模式的子字符串，并返回一个列表。 查找全部
-
-re.finditer(pattern, string)：查找字符串中所有匹配模式的子字符串，并返回一个迭代器，每个迭代对象都是一个匹配对象。查找全部
-
-re.sub(pattern, replacement, string)：将字符串中匹配模式的子字符串替换为指定的字符串，并返回替换后的字符串。 查找并替换
-
-'''
-
-
 def startswith_regex(pattern, text):
+    """
+    尝试从字符串的[开头]匹配模式，如果匹配成功则返回True，否则返回False
+    """
     match = re.match(pattern, text)
-    return match
+    if match:
+        return True
+    else:
+        return False
 
 
 def findfirst_regex(pattern, text):
+    """
+    在整个字符串中搜索匹配，如果找到则返回一个匹配对象，否则返回None
+    """
+    if not (pattern and text):
+        return None
     search_result = re.search(pattern, text)
     if search_result:
         return search_result.group(0)
-    return search_result
+    return None
 
 
 # 使用re.findall查找所有匹配
 def findall_regex(pattern, text):
-    '''
+    """
     <td><a href="(.*?)" class="model-link inside">
-    '''
+    根据正则表达式提取所有匹配的内容，返回一个列表
+    """
+    if not (pattern and text):
+        return []
     result_list = re.findall(pattern, text)
     return result_list
 
 
 def replaceall_regex(pattern, replaceto, text):
-    result = re.sub(pattern, replaceto, text)
-    return result
+    """
+    将正则表达式匹配到的内容替换为replaceto的内容，返回替换后的完整文本
+    """
+    if not (pattern and replaceto and text):
+        return text
+    new_text = re.sub(pattern, replaceto, text)
+    return new_text
 
 
 def get_base_url(url):
-    '''
+    """
     return 末尾不包含/
     引用方法:
     from 包名处（模块名称）.文件名称 import 函数名称
     包或者模块，是指含有__init__.py的文件夹
-    '''
+    """
     parsed_url = urlparse(url)
     base_url = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
     return base_url
@@ -383,6 +388,26 @@ def read_lines_from_console(clear_empty=False, strip_lines=False):
             break
 
     return lines
+
+
+def get_files_in_path(path):
+    """
+    获取某个路径中所有文件的绝对路径
+    """
+    file_list = []
+
+    # 如果是文件，直接返回文件的绝对路径
+    if os.path.isfile(path):
+        return [os.path.abspath(path)]
+
+    # 如果是目录，遍历目录及其子目录，返回所有文件的绝对路径列表
+    if os.path.isdir(path):
+        for root, dirs, files in os.walk(path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                file_list.append(os.path.abspath(file_path))
+
+    return file_list
 
 
 if __name__ == '__main__':
