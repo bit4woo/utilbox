@@ -108,7 +108,7 @@ def get_file_lines(file_path, spliter=";"):
 
 def get_lines_from_quote(text, remove_empty_lines=False):
     result = []
-    if not text or isinstance(text, str):
+    if not text or not isinstance(text, str):
         return []
     for item in text.splitlines():
         item = item.strip()
