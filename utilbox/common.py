@@ -410,6 +410,38 @@ def get_files_in_path(path):
     return file_list
 
 
+def contains_any(string, keywords):
+    """
+    判断string是否包含任何一个关键词
+    """
+    if isinstance(keywords, str):
+        return keywords in string
+    if isinstance(keywords, (list, set)):
+        for keyword in keywords:
+            if keyword in string:
+                return True
+    return False
+
+
+def print_all_str_vars(keywords_to_exclude=None):
+    """
+    打印用户定义的所有字符串变量，可以设置关键词根据变量名进行排除
+    """
+    if keywords_to_exclude is None:
+        keywords_to_exclude = {}
+    all_variables = globals()
+
+    for var_name, var_value in all_variables.items():
+        if not isinstance(var_value, str):
+            continue
+        if var_name.startswith("__") and var_name.endswith("__"):
+            continue
+        if contains_any(var_name, keywords_to_exclude):
+            continue
+        else:
+            print(var_value)
+
+
 if __name__ == '__main__':
     # print(is_valid_subnet("192.168.15.0/25"))
     # print(get_ip_list_of_subnet("192.168.15.0/25"))
