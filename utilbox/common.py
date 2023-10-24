@@ -1,4 +1,5 @@
 # coding: utf-8
+import hashlib
 import ipaddress
 import logging
 import os
@@ -442,7 +443,36 @@ def print_all_str_vars(keywords_to_exclude=None):
             print(var_value)
 
 
+def split_line(line):
+    """
+    将一行字符串分割成多个部分，连续的tab和空格都当作一个分隔符
+    testcase = "This\tis   \t  a\t\t  test 	  string\t"
+    testcase = "aaa	bbb"
+    :param line:
+    :return:
+    """
+    # parts = re.split(r'\s+|\t+', line)
+    parts = line.split()
+    # 字符串的split函数本身就有这样的能力
+    return parts
+
+
+def md5(input_string):
+    # 创建一个 MD5 哈希对象
+    md5_hash = hashlib.md5()
+
+    # 更新哈希对象以包含输入字符串的字节表示
+    md5_hash.update(input_string.encode('utf-8'))
+
+    # 获取 MD5 哈希值的十六进制表示
+    md5_hex = md5_hash.hexdigest()
+
+    return md5_hex
+
+
 if __name__ == '__main__':
     # print(is_valid_subnet("192.168.15.0/25"))
     # print(get_ip_list_of_subnet("192.168.15.0/25"))
-    print(get_ip("baidu.com"))
+    # print(get_ip("baidu.com"))
+    testcase = "This\tis   \t  a\t\t  test  	 string\t"
+    print(split_line(testcase))
