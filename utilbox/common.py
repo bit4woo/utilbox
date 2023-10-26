@@ -328,6 +328,22 @@ def startswith_regex(pattern, text):
         return False
 
 
+def extract_between(text, start, end):
+    """
+    提取2个字符串之间的内容
+    :param text:
+    :param start:
+    :param end:
+    :return:
+    """
+    pattern = re.escape(start) + r"(.*?)" + re.escape(end)
+    matches = re.findall(pattern, text)
+    if matches:
+        return matches[0]
+    else:
+        return None
+
+
 def findfirst_regex(pattern, text):
     """
     在整个字符串中搜索匹配，如果找到则返回一个匹配对象，否则返回None
