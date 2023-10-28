@@ -10,12 +10,14 @@ python环境：python3.8
 ## 安装方法
 
 ```
-python3.8 -m pip install --force-reinstall git+https://github.com/bit4woo/utilbox.git
+一般情况下用这个方法就可以了
+python3.8 -m pip uninstall --yes utilbox
+python3.8 -m pip install git+https://github.com/bit4woo/utilbox.git
 ```
 或
 ```
-python3.8 -m pip uninstall utilbox
-python3.8 -m pip install git+https://github.com/bit4woo/utilbox.git
+如果发生错误，可以用这个方法进行彻底重装，包括它的依赖包！
+python3.8 -m pip install --force-reinstall git+https://github.com/bit4woo/utilbox.git
 ```
 
 
