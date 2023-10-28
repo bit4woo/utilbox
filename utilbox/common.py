@@ -339,10 +339,9 @@ def extract_between(text, start, end):
     pattern = re.escape(start) + r"(.*?)" + re.escape(end)
     matches = re.findall(pattern, text)
     if matches:
-        return matches[0]
+        return matches
     else:
-        return None
-
+        return []
 
 def findfirst_regex(pattern, text):
     """
