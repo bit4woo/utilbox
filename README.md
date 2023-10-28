@@ -13,6 +13,8 @@ python环境：python3.8
 一般情况下用这个方法就可以了
 python3.8 -m pip uninstall --yes utilbox
 python3.8 -m pip install git+https://github.com/bit4woo/utilbox.git
+
+python3.8 -m pip uninstall --yes utilbox && python3.8 -m pip install git+https://github.com/bit4woo/utilbox.git
 ```
 或
 ```

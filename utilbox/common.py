@@ -330,7 +330,7 @@ def startswith_regex(pattern, text):
 
 def extract_between(text, start, end):
     """
-    提取2个字符串之间的内容
+    提取2个字符串之间的内容,返回一个列表
     :param text:
     :param start:
     :param end:
@@ -491,3 +491,4 @@ if __name__ == '__main__':
     # print(get_ip("baidu.com"))
     testcase = "This\tis   \t  a\t\t  test  	 string\t"
     print(split_line(testcase))
+    extract_between(aaaa, "href=\"", "\"")
