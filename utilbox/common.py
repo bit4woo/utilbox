@@ -92,6 +92,7 @@ def get_file_lines(file_path, spliter=";"):
                 if spliter:
                     result = []
                     for line in lines:
+                        line = line.strip()
                         result.extend(line.split(spliter))
                     return result
 
