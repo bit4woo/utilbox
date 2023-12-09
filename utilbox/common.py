@@ -187,22 +187,26 @@ def get_ip_list_of_subnet(subnet):
 
 
 def get_logger(log_file_name='logger.log'):
+    """
+    # https://stackoverflow.com/questions/7016056/python-logging-not-outputting-anything
+    # 只是将handler的level改成debug是不够的，还需要设置logger本身的level。logger是上游，handler是下游
+    :param log_file_name:
+    :return:
+    """
     formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s')
 
-    stdout_handler = logging.StreamHandler(sys.stdout)
-    stdout_handler.setLevel(logging.DEBUG)
-    stdout_handler.setFormatter(formatter)
+    # 使用basicConfig设置全局的日志级别
+    logging.basicConfig(level=logging.DEBUG)
 
-    file_handler = logging.FileHandler(log_file_name)
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(formatter)
-
+    # 创建logger
     logger = logging.getLogger('main')
-    logger.addHandler(file_handler)
-    logger.addHandler(stdout_handler)
-    logger.setLevel(logging.DEBUG)  # 只是将handler的level改成debug是不够的，还需要设置logger本身的level。logger是上游，handler是下游
-    logging.basicConfig(
-        level=logging.DEBUG)  # https://stackoverflow.com/questions/7016056/python-logging-not-outputting-anything
+
+    # 创建和设置StreamHandler和FileHandler
+    handlers = [logging.StreamHandler(sys.stdout), logging.FileHandler(log_file_name)]
+    for handler in handlers:
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
     return logger
 
 
