@@ -1,4 +1,5 @@
 # coding: utf-8
+import datetime
 import hashlib
 import ipaddress
 import logging
@@ -7,6 +8,7 @@ import random
 import re
 import socket
 import string
+import subprocess
 import sys
 import urllib
 from urllib.parse import urlparse, urlunparse
@@ -499,10 +501,42 @@ def md5(input_string):
     return md5_hex
 
 
+def get_time_str():
+    """
+    返回当前时间的字符串，常用于文件名
+    :return:
+    """
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%Y_%m_%d_%H_%M_%S_%f")[:-3]
+    return formatted_time
+
+
+def run_external_program(command):
+    """
+    注意，要执行的命令、脚本，基本都要求绝对路径
+    :param command:
+    :return:
+    """
+    try:
+        # Run the external program and capture its output
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
+
+        # Check if the command was successful (return code 0)
+        if result.returncode == 0:
+            # Return the standard output
+            return result.stdout.strip()
+        else:
+            # If the command failed, print the error message
+            print(f"Error: {result.stderr.strip()}")
+            return None
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
+
 if __name__ == '__main__':
     # print(is_valid_subnet("192.168.15.0/25"))
     # print(get_ip_list_of_subnet("192.168.15.0/25"))
     # print(get_ip("baidu.com"))
-    testcase = "This\tis   \t  a\t\t  test  	 string\t"
-    print(split_line(testcase))
-    extract_between(aaaa, "href=\"", "\"")
+    print(run_external_program("node G:\github\PackageHanlder\js\AES-CBC-IV.js en admin"))
