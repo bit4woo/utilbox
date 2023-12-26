@@ -11,6 +11,7 @@ import string
 import subprocess
 import sys
 import urllib
+from collections import OrderedDict
 from urllib.parse import urlparse, urlunparse
 
 # 上面是标准库，下面是第三方库库
@@ -533,6 +534,16 @@ def run_external_program(command):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+
+
+def deduplicate_list(input_list):
+    # 使用OrderedDict.fromkeys()去重，并保持原始顺序
+    deduplicated_dict = OrderedDict.fromkeys(input_list)
+
+    # 将字典的键转换回列表
+    deduplicated_list = list(deduplicated_dict.keys())
+
+    return deduplicated_list
 
 
 if __name__ == '__main__':
