@@ -205,7 +205,7 @@ def get_logger(log_file_name='logger.log'):
     logger = logging.getLogger('main')
 
     # 创建和设置StreamHandler和FileHandler
-    handlers = [logging.StreamHandler(sys.stdout), logging.FileHandler(log_file_name)]
+    handlers = [logging.StreamHandler(sys.stdout), logging.FileHandler(log_file_name, encoding="utf-8")]
     for handler in handlers:
         handler.setFormatter(formatter)
         logger.addHandler(handler)
@@ -547,7 +547,4 @@ def deduplicate_list(input_list):
 
 
 if __name__ == '__main__':
-    # print(is_valid_subnet("192.168.15.0/25"))
-    # print(get_ip_list_of_subnet("192.168.15.0/25"))
-    # print(get_ip("baidu.com"))
-    print(run_external_program("node G:\github\PackageHanlder\js\AES-CBC-IV.js en admin"))
+    get_logger("xxx.log").info("你好！contraseña")
