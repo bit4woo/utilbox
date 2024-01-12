@@ -1,4 +1,6 @@
 # coding: utf-8
+import base64
+import binascii
 import datetime
 import hashlib
 import ipaddress
@@ -546,5 +548,84 @@ def deduplicate_list(input_list):
     return deduplicated_list
 
 
-if __name__ == '__main__':
-    get_logger("xxx.log").info("你好！contraseña")
+def is_hex_code(input_str):
+    """
+    hello -- 68656C6C6F
+    :param input_str:
+    :return:
+    """
+    return re.match(r"^[0-9a-fA-F]+$", input_str) is not None
+
+
+def hex_code_to_byte_array(hex_code):
+    r"""
+    68656C6C6F --- b'hello'
+    1112136162 --- b'\x11\x12\x13ab'
+    可以打印的字符直接以字符表示，不行的用\x加code
+    :param hex_code:
+    :return:
+    """
+    return bytes.fromhex(hex_code)
+
+
+def byte_array_to_hex_code(byte_array):
+    """
+    使用方法
+    byte_array_to_hex_code(b"hello") -- bytes can only contain ASCII literal characters.
+    byte_array_to_hex_code("hello中文".encode())
+    :param byte_array:
+    :return:
+    """
+    # 使用 binascii.hexlify 将字节数组转换为 hex code
+    hex_code = binascii.hexlify(byte_array).decode()
+    return hex_code
+
+
+def is_base64(input_str):
+    try:
+        base64.b64decode(input_str)
+        return True
+    except ValueError:
+        return False
+
+
+def base64_encode(data):
+    """
+    传入的参数可以是 str 或者 byte array格式
+    encode --- str to byte array
+    decode --- byte array to str
+    :param data:
+    :return:
+    """
+    if isinstance(data, str):
+        data = data.encode()
+
+    # 进行 Base64 编码
+    encoded_data = base64.b64encode(data).decode()
+    return encoded_data
+
+
+def base64_decode(data):
+    """
+    解码后，如果转化为字符串就返回字符串，否则就返回byte[]
+    :param data:
+    :return:
+    """
+    # 尝试解码成字符串
+    try:
+        decoded_str = base64.b64decode(data).decode()
+        return decoded_str
+    except UnicodeDecodeError:
+        # 解码成字符串失败，返回字节数组
+        decoded_bytes = base64.b64decode(data)
+        return decoded_bytes
+    except Exception:
+        return None
+
+
+# print(is_hex_code("68 65 6C 6C 6F"))
+# print(hex_code_to_byte_array("1112136162"))
+# print(byte_array_to_hex_code(b"hello"))
+print(base64_decode("SGVsbG8gd29ybGQhxx"))
+# if __name__ == '__main__':
+#     get_logger("xxx.log").info("你好！contraseña")
