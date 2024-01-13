@@ -623,9 +623,37 @@ def base64_decode(data):
         return None
 
 
-# print(is_hex_code("68 65 6C 6C 6F"))
-# print(hex_code_to_byte_array("1112136162"))
-# print(byte_array_to_hex_code(b"hello"))
-print(base64_decode("SGVsbG8gd29ybGQhxx"))
+def get_files_in_dir(directory, extensions=None, include_subdir=True):
+    """
+    获取目录下的所有文件。
+
+    参数：
+    - directory: 目标目录的路径。
+    - extensions: 文件后缀过滤列表，例如 ['.txt', '.pdf']，默认为 None。
+    - include_subdir: 是否遍历子目录，True 为遍历，False 为不遍历，默认为 True。
+
+    返回：
+    包含所有文件路径的列表。
+    """
+    files = []
+
+    extensions = tuple(extensions) if extensions else None
+
+    def is_valid_file(filename):
+        return extensions is None or filename.endswith(extensions)
+
+    if include_subdir:
+        # 遍历目录及其子目录
+        for root, _, filenames in os.walk(directory):
+            for filename in filenames:
+                if is_valid_file(filename):
+                    files.append(os.path.join(root, filename))
+    else:
+        # 不遍历子目录，直接获取目录下的文件列表
+        files = [os.path.join(directory, filename) for filename in os.listdir(directory)
+                 if os.path.isfile(os.path.join(directory, filename)) and is_valid_file(filename)]
+
+    return files
+
 # if __name__ == '__main__':
 #     get_logger("xxx.log").info("你好！contraseña")
