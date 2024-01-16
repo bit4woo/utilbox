@@ -699,8 +699,7 @@ def get_files_in_dir(directory, extensions=None, include_subdir=True):
     return files
 
 
-# if __name__ == '__main__':
-#     get_logger("xxx.log").info("你好！contraseña")
-
-aa = get_lines_from_file(r"G:\test.txt")
-print(aa)
+if __name__ == '__main__':
+    get_logger("xxx.log").info("你好！contraseña")
+    aa = get_lines_from_file(r"G:\test.txt")
+    print(aa)
