@@ -86,25 +86,51 @@ def get_full_path(path):
     return path
 
 
-def get_file_lines(file_path, spliter=";"):
+def clean_list(lines, spliter=None, do_strip=True, remove_empty=True):
+    """
+    如果有分割符，会对每行再进行分割
+    默认对每个元素进行strip
+    默认删除空字符串
+    :param lines:
+    :param spliter:
+    :param do_strip:
+    :param remove_empty:
+    :return:
+    """
+    if isinstance(lines, list):
+        if spliter:
+            lines = [item for line in lines for item in line.split(spliter)]
+        if do_strip:
+            lines = [line.strip() for line in lines]
+        if remove_empty and "" in lines:
+            lines = [line for line in lines if line != ""]
+        return lines
+    return lines
+
+
+def get_lines_from_file(file_path, spliter=";", do_strip=True, remove_empty=True):
+    """
+    从文件中读行，返回一个列表。
+    如果有分割符，会对每行再进行分割
+    默认对每个元素进行strip
+    默认删除空字符串
+    :param file_path:
+    :param spliter:
+    :param do_strip:
+    :param remove_empty:
+    :return:
+    """
     encodings_to_try = ['utf-8', 'gbk']  # 尝试的编码列表
 
     for encoding in encodings_to_try:
         try:
             with open(file_path, 'r', encoding=encoding) as f:
                 lines = f.readlines()
-
-                if spliter:
-                    result = []
-                    for line in lines:
-                        line = line.strip()
-                        result.extend(line.split(spliter))
-                    return result
-
-                return lines
+                return clean_list(lines, spliter, do_strip, remove_empty)
         except UnicodeDecodeError:
             continue
         except FileNotFoundError:
+            print(f"File not found: {file_path}")
             return None
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -113,20 +139,26 @@ def get_file_lines(file_path, spliter=";"):
     return None  # 如果都尝试失败，则返回 None
 
 
-def get_lines_from_file(file_path, spliter=";"):
-    return get_file_lines(file_path, spliter)
-
-
-def get_lines_from_quote(text, remove_empty_lines=False):
-    result = []
+def get_lines_from_quote(text, spliter=";", do_strip=True, remove_empty=True):
     if not text or not isinstance(text, str):
         return []
-    for item in text.splitlines():
-        item = item.strip()
-        if remove_empty_lines and item == "":
-            continue
-        result.append(item)
-    return result
+
+    lines = text.splitlines()
+    return clean_list(lines, spliter, do_strip, remove_empty)
+
+
+def get_lines_from_console(spliter=";", do_strip=True, remove_empty=True):
+    lines = []
+
+    print("Enter multiple lines of text (Ctrl+D or Ctrl+Z to end):")
+    while True:
+        try:
+            line = input()
+            lines.append(line)
+        except EOFError:
+            break
+
+    return clean_list(lines, spliter, do_strip, remove_empty)
 
 
 def is_valid_domain(domain):
@@ -316,6 +348,38 @@ def get_textarea_contents(html, name=None):
     return textarea_contents
 
 
+def get_content_by_class(html, class_name):
+    """
+    根据
+    :param html:
+    :param class_name:
+    :return:
+    """
+    # 使用 BeautifulSoup 解析 HTML
+    soup = BeautifulSoup(html, 'html.parser')
+
+    # 使用 CSS 选择器定位元素
+    elements = soup.select(f'.{class_name}')
+
+    # 提取元素的内容
+    content = [element.get_text() for element in elements]
+
+    return content
+
+
+def get_content_by_element(html, element_name):
+    # 使用 BeautifulSoup 解析 HTML
+    soup = BeautifulSoup(html, 'html.parser')
+
+    # 使用 CSS 选择器定位元素
+    elements = soup.select(element_name)
+
+    # 提取元素的内容
+    content = [element.get_text() for element in elements]
+
+    return content
+
+
 def get_full_path(path):
     if path.startswith("~"):
         path = os.path.expanduser(path)
@@ -402,27 +466,6 @@ def get_base_url(url):
     parsed_url = urlparse(url)
     base_url = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
     return base_url
-
-
-def read_lines_from_console(clear_empty=False, strip_lines=False):
-    lines = []
-
-    print("Enter multiple lines of text (Ctrl+D or Ctrl+Z to end):")
-    while True:
-        try:
-            line = input()
-            if strip_lines:
-                line = line.strip()
-            if not clear_empty or line:
-                lines.append(line)
-        except EOFError:
-            break
-
-    return lines
-
-
-def get_lines_from_console(clear_empty=False, strip_lines=False):
-    return read_lines_from_console(clear_empty, strip_lines)
 
 
 def get_files_in_path(path):
@@ -655,5 +698,9 @@ def get_files_in_dir(directory, extensions=None, include_subdir=True):
 
     return files
 
+
 # if __name__ == '__main__':
 #     get_logger("xxx.log").info("你好！contraseña")
+
+aa = get_lines_from_file(r"G:\test.txt")
+print(aa)
