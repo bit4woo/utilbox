@@ -22,49 +22,73 @@ import socks
 from bs4 import BeautifulSoup
 
 
-def chose_from_list(items):
-    '''
+def choose_from_list(items):
+    """
     返回一个选中的list。
-    '''
-    for index, item in enumerate(items):
-        print(f"{index} {item}")
-    print(f"{len(items)} all")
-
+    """
     while True:
         try:
-            index = int(input("chose your item with index:\n\r"))
-            if 0 <= index <= len(items):
-                return items[index:index + 1] if index < len(items) else items
+            print("Available options:")
+            for index, item in enumerate(items):
+                print(f"{index} {item}")
+            print(f"{len(items)} all")
+
+            user_input = input("Choose your item(s) with index (comma-separated for multiple):\n")
+
+            if user_input.lower() == 'all':
+                return items
+
+            selected_indices = [int(index.strip()) for index in user_input.split(',') if index.strip().isdigit()]
+
+            if all(0 <= index < len(items) for index in selected_indices):
+                return [items[index] for index in selected_indices]
             else:
-                print("wrong index number")
+                print("Invalid index number. Please try again.")
+
         except EOFError:
             sys.exit(0)
         except KeyboardInterrupt:
             sys.exit(0)
         except ValueError:
-            print("you should input Index Number")
+            print("Invalid input. Please enter valid index number(s).")
 
 
-def chose_from_map(items):
-    '''
+def choose_from_iterable(iterable):
+    """
     返回一个选中的list。
-    '''
-    for index, item in enumerate(items):
-        print(f"{index} {item}")
+    """
+    ordered_iterable = iterable
+
+    # 如果输入是字典，则转换为有序字典
+    if isinstance(iterable, dict):
+        ordered_iterable = OrderedDict(iterable)
+
     while True:
         try:
-            index = int(input("chose your item with index:\n\r"))
-            if 0 <= index <= len(items):
-                chosen_key = list(items.keys())[index]
-                return items[chosen_key]
+            print("Available options:")
+            for index, item in enumerate(ordered_iterable):
+                print(f"{index} {item}")
+            print(f"{len(ordered_iterable)} all")
+
+            user_input = input("Choose your item(s) with index (comma-separated for multiple):\n")
+
+            if user_input.lower() == 'all':
+                return list(ordered_iterable.values())
+
+            selected_indices = [int(index.strip()) for index in user_input.split(',') if index.strip().isdigit()]
+
+            if all(0 <= index < len(ordered_iterable) for index in selected_indices):
+                selected_items = [list(ordered_iterable.values())[index] for index in selected_indices]
+                return selected_items
             else:
-                print("wrong index number")
+                print("Invalid index number. Please try again.")
+
         except EOFError:
             sys.exit(0)
         except KeyboardInterrupt:
             sys.exit(0)
         except ValueError:
-            print("you should input Index Number")
+            print("Invalid input. Please enter valid index number(s).")
 
 
 def get_file_content(file_path):
@@ -703,3 +727,9 @@ if __name__ == '__main__':
     get_logger("xxx.log").info("你好！contraseña")
     aa = get_lines_from_file(r"G:\test.txt")
     print(aa)
+    # 示例使用
+    # 示例使用
+    iterable_example = {"Option 1": 1, "Option 2": 2, "Option 3": 3, "Option 4": 4}
+
+    selected_items = choose_from_iterable(iterable_example)
+    print("Selected items:", selected_items)
