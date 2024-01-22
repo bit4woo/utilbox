@@ -412,6 +412,25 @@ def get_full_path(path):
     return path
 
 
+def is_file_path_by_pattern(path):
+    # 定义常见文件路径的正则表达式模式
+    path_patterns = [
+        r'^[a-zA-Z]:\\[^:*?"<>|\r\n]*$',  # Windows 绝对路径
+        r'^[a-zA-Z]:/[^:*?"<>|\r\n]*$',  # Windows 绝对路径（斜杠）
+        r'^/[^:*?"<>|\r\n]*$',  # Linux/MacOS 绝对路径
+        r'^\.[a-zA-Z0-9_/-]*$',  # 相对路径
+        r'^\.\.[a-zA-Z0-9_/-]*$'  # 相对路径（上级目录）
+    ]
+
+    # 使用正则表达式匹配路径
+    for pattern in path_patterns:
+        if re.match(pattern, path):
+            return True
+
+    # 如果没有匹配任何模式，则判定为无效路径
+    return False
+
+
 def get_ip(host):
     try:
         return socket.gethostbyname(host)
