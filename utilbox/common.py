@@ -501,7 +501,9 @@ def replaceall_regex(pattern, replaceto, text):
 
 def get_base_url(url):
     """
-    return 末尾不包含/
+    return 末尾不包含/，类似http请求的Origin header
+    Origin: https://www.example.com
+    Referer: https://www.example.com/user/login
     引用方法:
     from 包名处（模块名称）.文件名称 import 函数名称
     包或者模块，是指含有__init__.py的文件夹
