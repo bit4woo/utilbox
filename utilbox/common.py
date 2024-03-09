@@ -344,17 +344,20 @@ def url_decode(url):
     return urllib.parse.unquote(url)
 
 
-def get_argv(num_of_arg=1):
-    result = []
-    if len(sys.argv) > num_of_arg:
-        # return sys.argv[1:-1] #这是错误的，末尾index所在元素是不会被包含的
-        return sys.argv[1:num_of_arg + 222]  # 只要大于长度都可以！
+def get_input_values(*arg_name):
+    """
+    从用户输入获取多个变量的值，类似如下的用法
+    param1, param2, param3 = get_input_values("param1", "param2", "param3")
+    :param arg_name:
+    :return:
+    """
+    if not arg_name or len(arg_name) == 0 or None in arg_name or any(not isinstance(arg,str) for arg in arg_name):
+        return ()
+    if len(arg_name) == 1:
+        arg_value = input(f"Enter [{arg_name[0]}] value: ")
+        return arg_value
     else:
-        index = 0
-        while index < num_of_arg:
-            arg = input("Enter argument {}: ".format(index + 1))
-            result.append(arg)
-            index += 1
+        result = tuple(input(f"Enter [{arg}] value: ") for arg in arg_name)
         return result
 
 
@@ -812,12 +815,6 @@ def get_files_in_dir(directory, extensions=None, include_subdir=True):
 
 
 if __name__ == '__main__':
-    get_logger("xxx.log").info("你好！contraseña")
-    aa = get_lines_from_file(r"G:\test.txt")
-    print(aa)
-    # 示例使用
-    # 示例使用
-    iterable_example = {"Option 1": 1, "Option 2": 2, "Option 3": 3, "Option 4": 4}
 
-    selected_items = choose_from_iterable(iterable_example)
-    print("Selected items:", selected_items)
+    param1 = get_input_values()
+    print(param1)
