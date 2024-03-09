@@ -347,18 +347,22 @@ def url_decode(url):
 def get_input_values(*arg_name):
     """
     从用户输入获取多个变量的值，类似如下的用法
-    param1, param2, param3 = get_input_values("param1", "param2", "param3")
+    get_input_values("param1", "param2", "param3")
     :param arg_name:
-    :return:
+    :return: 返回参数名和值的字典
     """
-    if not arg_name or len(arg_name) == 0 or None in arg_name or any(not isinstance(arg,str) for arg in arg_name):
-        return ()
-    if len(arg_name) == 1:
-        arg_value = input(f"Enter [{arg_name[0]}] value: ")
-        return arg_value
-    else:
-        result = tuple(input(f"Enter [{arg}] value: ") for arg in arg_name)
-        return result
+    result = dict()  # 还是用dict类型，结果不容易出错
+    # 运行程序时，有参数传递，那么就直接使用
+    if len(sys.argv) > len(arg_name):
+        for i, arg in enumerate(arg_name):
+            result[arg] = sys.argv[i + 1]
+    else:  # 没有参数传递，要求用户输入
+        for arg in arg_name:
+            if arg is None or not isinstance(arg, str):
+                continue
+            arg_value = input(f"Enter [{arg}] value: ")
+            result[arg] = arg_value
+    return result
 
 
 @DeprecationWarning
@@ -815,6 +819,5 @@ def get_files_in_dir(directory, extensions=None, include_subdir=True):
 
 
 if __name__ == '__main__':
-
-    param1 = get_input_values()
+    param1 = get_input_values("url")
     print(param1)
