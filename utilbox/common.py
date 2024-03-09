@@ -358,6 +358,7 @@ def get_argv(num_of_arg=1):
         return result
 
 
+@DeprecationWarning
 def get_textarea_contents(html, name=None):
     # Parse the HTML with BeautifulSoup
     soup = BeautifulSoup(html, 'html.parser')
@@ -372,6 +373,7 @@ def get_textarea_contents(html, name=None):
     return textarea_contents
 
 
+@DeprecationWarning
 def get_content_by_class(html, class_name):
     """
     根据
@@ -391,6 +393,7 @@ def get_content_by_class(html, class_name):
     return content
 
 
+@DeprecationWarning
 def get_content_by_element(html, element_name):
     # 使用 BeautifulSoup 解析 HTML
     soup = BeautifulSoup(html, 'html.parser')
@@ -402,6 +405,55 @@ def get_content_by_element(html, element_name):
     content = [element.get_text() for element in elements]
 
     return content
+
+
+def get_element_text(element):
+    """
+    获取BeautifulSoup的Tag对象，也就是HTML元素的文本内外，比如textarea中的字符串
+    :param element:
+    :return:
+    """
+    return element.get_text()
+
+
+def get_element_attr(element, attr_name):
+    """
+    获取BeautifulSoup的Tag对象，也就是HTML元素的属性值
+    :param element:
+    :param attr_name:
+    :return:
+    """
+    return element.get(str(attr_name).lower())
+
+
+def find_elements(html, name, attr_names: list = None, keywords: list = None):
+    """
+    HTML元素指的是从开始标签（start tag）到结束标签（end tag）的所有代码。BeautifulSoup的Tag对象（即元素）
+    元素可拥有属性，属性总是以名称/值对的形式出现，比如：name="value"。
+    class、id等是大多数HTML元素都有的属性
+    <input checkDependsOn="credentialsId" checkMethod="post" checkUrl="/job/" name="_.url" placeholder="" type="text" class="jenkins-input validated  " value="">
+    :param html:
+    :param keywords: 关键词列表，将整个元素当作字符串看待，字符串需要包含所有的关键词
+    :param attr_names: 传递一个列表，列表中的元素是需要包含的属性名称
+    :param name: 的作用对象是tag的名称，比如input、head等
+    :return Tag对象的list
+    """
+    if keywords is None:
+        keywords = []
+    if attr_names is None:
+        attr_names = []
+    result = []
+    soup = BeautifulSoup(html, 'html.parser')
+
+    result_dict = {str(key).lower(): True for key in attr_names}
+    # 使用字典解包的方式将值传递给函数作为参数
+    elements = soup.find_all(name=name, **result_dict)
+    for element in elements:
+        for keyword in keywords:
+            if keyword not in str(element):
+                break
+        result.append(element)
+    return result
 
 
 def get_full_path(path):
@@ -486,7 +538,7 @@ def findall_regex(pattern, text):
     if not (pattern and text):
         return []
     result_list = re.findall(pattern, text)
-    return result_list
+    return result_list or []  # 如果result_list为空，则返回一个空列表
 
 
 def replaceall_regex(pattern, replaceto, text):

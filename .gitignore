@@ -3,3 +3,4 @@
 /utilbox.egg-info/
 /build/
 *.log
+*.pyc
