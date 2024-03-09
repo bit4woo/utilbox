@@ -19,7 +19,7 @@ from urllib.parse import urlparse, urlunparse
 # 上面是标准库，下面是第三方库库
 import socks
 # python3.8 -m pip install PySocks
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 
 def choose_from_list(items):
@@ -413,7 +413,13 @@ def get_element_text(element):
     :param element:
     :return:
     """
-    return element.get_text()
+    if isinstance(element, Tag):
+        return element.get_text()
+    elif hasattr(element, '__iter__'):
+        result = []
+        for item in element:
+            result.extend(get_element_text(item))
+        return result
 
 
 def get_element_attr(element, attr_name):
@@ -423,7 +429,13 @@ def get_element_attr(element, attr_name):
     :param attr_name:
     :return:
     """
-    return element.get(str(attr_name).lower())
+    if isinstance(element, Tag):
+        return element.get(str(attr_name).lower())
+    elif hasattr(element, '__iter__'):
+        result = []
+        for item in element:
+            result.extend(get_element_text(item))
+        return result
 
 
 def find_elements(html, name, attr_names: list = None, keywords: list = None):
@@ -445,14 +457,17 @@ def find_elements(html, name, attr_names: list = None, keywords: list = None):
     result = []
     soup = BeautifulSoup(html, 'html.parser')
 
-    result_dict = {str(key).lower(): True for key in attr_names}
+    result_dict = {str(attr_name).lower(): True for attr_name in attr_names}
     # 使用字典解包的方式将值传递给函数作为参数
     elements = soup.find_all(name=name, **result_dict)
+
+    # 使用集合来加速关键词匹配
+    keywords_set = set(keywords)
     for element in elements:
-        for keyword in keywords:
-            if keyword not in str(element):
-                break
-        result.append(element)
+        # 将元素转换为字符串，然后检查关键词是否在其中
+        element_str = str(element)
+        if all(keyword in element_str for keyword in keywords_set):
+            result.append(element)
     return result
 
 
