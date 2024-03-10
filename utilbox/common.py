@@ -425,7 +425,7 @@ def get_element_text(element):
     elif hasattr(element, '__iter__'):
         result = []
         for item in element:
-            result.extend(get_element_text(item))
+            result.append(get_element_text(item))
         return result
 
 
@@ -441,7 +441,7 @@ def get_element_attr(element, attr_name):
     elif hasattr(element, '__iter__'):
         result = []
         for item in element:
-            result.extend(get_element_attr(item, attr_name))
+            result.append(get_element_attr(item, attr_name))
         return result
 
 
