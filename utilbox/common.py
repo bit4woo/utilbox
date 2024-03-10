@@ -365,7 +365,6 @@ def get_input_values(*arg_name):
     return result
 
 
-@DeprecationWarning
 def get_textarea_contents(html, name=None):
     # Parse the HTML with BeautifulSoup
     soup = BeautifulSoup(html, 'html.parser')
@@ -380,7 +379,6 @@ def get_textarea_contents(html, name=None):
     return textarea_contents
 
 
-@DeprecationWarning
 def get_content_by_class(html, class_name):
     """
     根据
@@ -400,7 +398,6 @@ def get_content_by_class(html, class_name):
     return content
 
 
-@DeprecationWarning
 def get_content_by_element(html, element_name):
     # 使用 BeautifulSoup 解析 HTML
     soup = BeautifulSoup(html, 'html.parser')
@@ -464,7 +461,8 @@ def find_elements(html, name, attr_names: list = None, keywords: list = None):
     result = []
     soup = BeautifulSoup(html, 'html.parser')
 
-    result_dict = {str(attr_name).lower(): True for attr_name in attr_names}
+    result_dict = {str(attr_name).lower(): True for attr_name in attr_names if str(attr_name).lower() not in ["name"]}
+    # 需要排除和find_all同名的参数，否则会报错
     # 使用字典解包的方式将值传递给函数作为参数
     elements = soup.find_all(name=name, **result_dict)
 
