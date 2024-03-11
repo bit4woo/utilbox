@@ -85,7 +85,7 @@ utilbox.highlight_print("welcome","utilbox")
 
 setup的基本逻辑就是复制指定的目录或者文件到python环境相应的目录中。
 
-如果package项目中，目录名称修改了，在使用这个package时，import xxx的名称也需要改！！！所以最好固定这个名称！！！
+如果package项目中，目录名称修改了，再使用这个package时，import xxx的名称也需要改！！！所以最好固定这个名称！！！
 
 
 
