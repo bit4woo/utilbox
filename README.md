@@ -75,7 +75,9 @@ py_modules： 列出要包含在包中的单个模块文件。这将影响哪些
 
 解决方案，利用submodule实现，package源码文件直接修改！
 
+
 1、将安装后代码所在目录，作为git项目目录。C:\Python382\Lib\site-packages\utilbox
+
 
 ![image-20240311105242113](assets/image-20240311105242113.png)
 
